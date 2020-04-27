@@ -1,0 +1,72 @@
+@import url('fonts.css');
+
+:root {
+  --indigo: #3300FF;
+}
+
+html {
+  background-color: black;
+}
+
+body {
+  font-family: Open Sans, sans-serif;
+  font-size: large;
+  color: white;
+  margin: 0;
+}
+h2 {
+  font-size: small;
+}
+
+#flex {
+  display: flex;
+  flex-direction: column;
+}
+
+div div { height: 120vh; }
+
+#flex > div {
+  padding: 0% 5% 0% 10%;
+}
+
+.text {
+  /* centers text */
+  display: table-cell;
+  vertical-align: middle;
+  min-width: 20em;
+  max-width: 40em;
+}
+
+#graph {
+  position: fixed;
+  stroke: white;
+  stroke-width: 6;
+  fill: none;
+  /* fill: grey; */
+  /* min-width: 400px; */
+  width: 95%;
+  height: 90%;
+  /* z-index: -1; */
+}
+
+#debug {
+  position: fixed;
+  border: 2px solid white;
+  padding: 0.5em;
+  bottom: 0;
+  right: 0;
+  width: max-content;
+  font-size: small;
+}
+
+#title { background-color: black; }
+#intro {
+  background-color: black;
+}
+#t1 { background-image: linear-gradient(black, white); height: 15vh; }
+#first { background-color: red; }
+#t2 { background-image: linear-gradient(red, orange, yellow); }
+#second { background-color: yellow; }
+#t3 { background-image: linear-gradient(yellow, darkgreen); }
+#third { background-color: darkgreen; }
+#t4 { background-image: linear-gradient(darkgreen, var(--indigo), black); height: 240vh; }

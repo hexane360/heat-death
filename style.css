@@ -18,23 +18,33 @@ h2 {
   font-size: small;
 }
 
-#flex {
+.flex {
   display: flex;
   flex-direction: column;
 }
-
-div div { height: 120vh; }
-
-#flex > div {
-  padding: 0% 5% 0% 10%;
+.flex > div {
+  padding: 60vh 0 60vh 0;
 }
 
 .text {
-  /* centers text */
-  display: table-cell;
-  vertical-align: middle;
   min-width: 20em;
   max-width: 40em;
+  margin: auto 5% auto 10%;
+}
+.text ~ .text {
+  margin-top: 2em;
+}
+.diag1 {
+  float: left;
+  text-align: left;
+  width: 30em;
+  max-width: 70%;
+}
+.diag2 {
+  float: right;
+  text-align: right;
+  width: 30em;
+  max-width: 70%
 }
 
 #graph {
@@ -42,8 +52,6 @@ div div { height: 120vh; }
   stroke: white;
   stroke-width: 6;
   fill: none;
-  /* fill: grey; */
-  /* min-width: 400px; */
   width: 95%;
   height: 90%;
   /* z-index: -1; */
@@ -63,10 +71,10 @@ div div { height: 120vh; }
 #intro {
   background-color: black;
 }
-#t1 { background-image: linear-gradient(black, white); height: 15vh; }
+#t1 { background-image: linear-gradient(black, white); padding: 15vh 0% 15vh 0%; }
 #first { background-color: red; }
 #t2 { background-image: linear-gradient(red, orange, yellow); }
 #second { background-color: yellow; }
 #t3 { background-image: linear-gradient(yellow, darkgreen); }
 #third { background-color: darkgreen; }
-#t4 { background-image: linear-gradient(darkgreen, var(--indigo), black); height: 240vh; }
+#t4 { background-image: linear-gradient(darkgreen, var(--indigo), black); padding: 120vh 0% 120vh 0%; }

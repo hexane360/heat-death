@@ -21,22 +21,22 @@ body {
 h2 {
   font-size: small;
 }
+svg {
+  transition: stroke 2s linear, color 2s linear, fill 2s linear, opacity 0.5s linear, visibility 0s 0.5s;
+}
 .dark {
   color: black; stroke: black;
-  transition: stroke 0.5s linear, color 0.5s linear, fill 0.5s linear;
 }
 .dark text, .dark tspan { fill: black; }
-:not(.dark) { transition: stroke 0.5s linear, color 0.5s linear, fill 0.5s linear; }
 
 .hide {
   visibility: hidden;
   opacity: 0;
-  transition: opacity 0.5s linear, visibility 0s 0.5s;
 }
 :not(.hide) {
   visibility: visible;
   opacity: 1;
-  transition: opacity 0.5s linear;
+  transition: stroke 2s linear, color 2s linear, fill 2s linear, opacity 0.5s linear;
 }
 
 .flex {
@@ -80,7 +80,7 @@ h2 {
   height: 100%;
   stroke-width: 4;
   fill: none;
-  /* z-index: -1; */
+  z-index: 0;
 }
 
 .tick line {
@@ -113,6 +113,11 @@ svg text, svg tspan {
   margin: 4rem;
 }
 
+#poly {
+  fill: black;
+  z-index: -1;
+}
+
 #debug {
   background-color: black;
   position: fixed;
@@ -129,7 +134,7 @@ svg text, svg tspan {
   background-color: black;
 }
 #bang { background-image: linear-gradient(black, white); height: 30vh; }
-#electroweak { background-image: linear-gradient(white, 20%, var(--yellow)); color: black; }
+#electroweak { background-image: linear-gradient(white, 20%, var(--yellow)); color: black; padding-top: 100vh; }
 #t2 { background-image: linear-gradient(var(--yellow), orange); }
 #quark { background-color: orange; }
 #t3 { background-image: linear-gradient(orange, var(--red), 85%, darkgreen); height: 240vh; }

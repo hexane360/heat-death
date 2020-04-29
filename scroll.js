@@ -1,5 +1,5 @@
 const line_keyframes = [
-	{name: "bang",        time: Math.log10(1e-43), start: () => bottomOf(bang), length: () => 0},
+	{name: "bang",        time: Math.log10(1e-43), start: () => bottomOf(bang) + window.innerHeight/2, length: () => 0},
 	//{name: "end of expansion", temp: 1e27, time: 1e-33},
 	{name: "electroweak", time: Math.log10(1.37e-20), start: () => topOfContent(electroweak), length: () => heightOfContent(electroweak)},
 	{name: "quark",       time: Math.log10(1.4e-11), start: () => topOfContent(quark), length: () => heightOfContent(quark)},
@@ -7,7 +7,7 @@ const line_keyframes = [
 	{name: "He",          time: 1e2},
 	{name: "Dark Ages",   temp: 9e3, time: 5.6e12},
 	{name: "Neutral atoms", temp: 3e3, time: 1.2e13},*/
-	{name: "present",     time: Math.log10(4.3e17), start: () => topOfContent(human), length: () => heightOfContent(human)},
+	{name: "human",     time: Math.log10(4.3e17), start: () => topOfContent(human), length: () => heightOfContent(human)},
 	{name: "blackhole",   time: Math.log10(3.156e47), start: () => topOfContent(blackhole), length: () => heightOfContent(blackhole)},
 	{name: "heatdeath",   time: 1007, start: () => bottomOf(document.documentElement), length: () => 0}
 ];
@@ -17,8 +17,12 @@ function calc_temp(time) {
 }
 
 const axes_keyframes = [
-	{name: "bang", time_bounds: [-43, -6], temp_bounds: [18, 32], start: () => bottomOf(bang), length: () => 0},
-	{name: "electroweak", time_bounds: [-28, -6], temp_bounds: [18, 32], start: () => topOfContent(electroweak), length: () => heightOfContent(electroweak)},
+	{name: "bang", time_bounds: [-43, -6], temp_bounds: [15, 38], start: () => bottomOf(bang), length: () => topOfContent(electroweak) - bottomOf(bang)},
+	{name: "electroweak", time_bounds: [-30, -6], temp_bounds: [15, 38], start: () => centerOfContent(electroweak), length: () => heightOfContent(electroweak)/2},
+	{name: "quark", time_bounds: [-12, 0], temp_bounds: [10, 32], start: () => topOfContent(quark), length: () => heightOfContent(quark)},
+	{name: "human",  time_bounds: [5, 20], temp_bounds: [-3, 30], start: () => topOfContent(human), length: () => heightOfContent(human)},
+	{name: "blackhole", time_bounds: [0, 70], temp_bounds: [-20, 30], start: () => topOfContent(blackhole), length: () => heightOfContent(blackhole)},
+	{name: "heatdeath", time_bounds: [0, 1007], temp_bounds: [-510, 30], start: () => bottomOf(document.documentElement), length: () => 0},
 ];
 
 let graph, title, intro, bang, electroweak, t2, quark, t3, human, t4, blackhole;
@@ -46,6 +50,26 @@ function ease(x) {
 }
 function interpolate(frac, start, end) { return start + frac*(end - start); }
 
+function calc_multiple(begin, end) {
+	const range = Math.abs(end - begin);
+	if (range > 500) {
+		return 100;
+	} else if (range > 200) {
+		return 50;
+	} else if (range > 100) {
+		return 20;
+	} else if (range > 20) {
+		return 5;
+	} else if (range > 10) {
+		return 2;
+	} else if (range > 5) {
+		return 1;
+	} else if (range > 1) {
+		return 0.1;
+	}
+	return 0.01;
+}
+
 function multiples(multiple, begin, end) {
 	let start = Math.floor(begin / multiple) * multiple;
 	if (start < begin) { start += multiple; }
@@ -71,10 +95,24 @@ function multiples(multiple, begin, end) {
 	return iterator;
 }
 
-function forMultiples(multiple, begin, end, f) {
-	let start = Math.floor(begin / multiple) * multiple;
-	if (start < begin) { start += multiple; }
-	for (let x = start; x <= end; x += multiple) { f(x); }
+function range(start, end, step) {
+	let x = start;
+
+	const invalid = end > start ? step <= 0 : step >= 0;
+	
+	const iterator = {
+		next: function() {
+			if (x > end || invalid) {
+				return { done: true };
+			} else {
+				const value = x;
+				x += step;
+				return {value: value, done: false };
+			}
+		},
+		[Symbol.iterator]: function() { return this; }
+	};
+	return iterator;
 }
 
 class AxesCoords {
@@ -90,6 +128,7 @@ class AxesCoords {
 		//data coords
 		this.x_bounds = [x_begin, x_end];
 		this.y_bounds = [y_begin, y_end];
+		this.tform_y_bounds = [this.tform(y_begin), this.tform(y_end)];
 	}
 
 	get left() { return this.x; }
@@ -99,15 +138,20 @@ class AxesCoords {
 
 	//get canvas coords from data coord
 	yval(val) {
-		let frac = (val - this.y_bounds[0]) / (this.y_bounds[1] - this.y_bounds[0]);
+		val = this.tform(val);
+		let frac = (val - this.tform_y_bounds[0]) / (this.tform_y_bounds[1] - this.tform_y_bounds[0]);
 		//frac = frac*frac*Math.sign(frac);
+		//frac = frac*frac;
 		return frac*this.height + this.y;
 	}
 	xval(val) {
 		let frac = (val - this.x_bounds[0]) / (this.x_bounds[1] - this.x_bounds[0]);
-		frac = frac*frac*Math.sign(frac);
+		//frac = frac*frac*Math.sign(frac);
+		//frac = frac*frac*frac*frac;
 		return frac*this.width + this.x;
 	}
+
+	tform(val) { return Math.pow(val+43, 4); }
 }
 
 function find_keyframe(keyframes, pos, log=false) {
@@ -152,7 +196,12 @@ function updatePos() {
 	document.getElementById('scroll').innerHTML = scroll + '/' + scroll_height;
 	let svg_height = document.getElementById('graph').scrollHeight;
 
-	if (center_pos > bottomOf(electroweak)) {
+	if (window.scrollY + window.innerHeight == document.body.clientHeight) {
+		console.log("Reached end");
+		window.setTimeout(function() { graph.classList.add('hide') }, 3000);
+	}
+
+	if (center_pos + window.innerHeight/2 > topOf(quark)) {
 		graph.classList.remove('dark');
 	} else {
 		graph.classList.add('dark');
@@ -181,26 +230,40 @@ function updatePos() {
 	}
 	axes_coords = new AxesCoords(chartarea, x_begin, x_end, y_begin, y_end);
 
+	const clip_path = `polygon(\
+${axes_coords.left} ${axes_coords.top}, \
+${axes_coords.right} ${axes_coords.top}, \
+${axes_coords.right} ${axes_coords.bottom}, \
+${axes_coords.left} ${axes_coords.bottom}) view-box`;
+
 	//line
-	const endpoints = [-43, 18];
-	const points = Array.from(multiples(0.05, -43, 18), y =>
+	let points = Array.from(range(y_begin, y_end + 0.1, 0.1), y =>
 		axes_coords.xval(calc_temp(y)) + ',' + axes_coords.yval(y)
 	);
 	const line = document.getElementById('line');
 	line.setAttribute('points', points.join(" "));
-	line.setAttribute('clip-path', `polygon(\
-${axes_coords.left} ${axes_coords.top}, \
-${axes_coords.right} ${axes_coords.top}, \
-${axes_coords.right} ${axes_coords.bottom}, \
-${axes_coords.left} ${axes_coords.bottom}) view-box`);
+	line.setAttribute('clip-path', clip_path);
 	//line.setAttribute('clip', `rect(${axes_coords.left}, ${axes_coords.top}, ${axes_coords.right}, ${axes_coords.bottom})`);
+
+	//fill
+	points = Array.from(range(y_begin, time, 0.1), y =>
+		axes_coords.xval(calc_temp(y)) + ',' + axes_coords.yval(y)
+	);
+	points.push(axes_coords.xval(temp) + ',' + axes_coords.yval(time));
+	points.push(axes_coords.x + ',' + axes_coords.yval(time));
+	points.push(axes_coords.x + ',' + axes_coords.y);
+	const poly = document.getElementById('poly');
+	poly.setAttribute('points', points.join(" "));
+	poly.setAttribute('clip-path', clip_path);
 
 	//ticks
 	let ticks = "";
-	for (const x_tick of multiples(5, x_begin, x_end)) {
+	x_multiple = calc_multiple(x_begin, x_end);
+	for (const x_tick of multiples(x_multiple, x_begin, x_end)) {
 		ticks += svg_tick(false, x_tick, axes_coords);
 	}
-	for (const y_tick of multiples(2, y_begin, y_end)) {
+	y_multiple = calc_multiple(y_begin, y_end);
+	for (const y_tick of multiples(y_multiple, y_begin, y_end)) {
 		ticks += svg_tick(true, y_tick, axes_coords);
 	}
 	document.getElementById('ticks').innerHTML = ticks;
@@ -259,8 +322,12 @@ function svg_text(text, x, y, attrs=null) {
 	return `${s}>${text}</text>`;
 }
 
+function round_n(num, places=2) {
+	return Math.round((num + Number.EPSILON) * Math.pow(10, places)) / Math.pow(10, places);
+}
+
 function svg_tick(y_axis, val, axes_coords, tick_l=15, text_offset=40) {
-	let text = svg_text(`10<tspan class="super">${val}</tspan>`, 0, -text_offset);
+	let text = svg_text(`10<tspan class="super">${round_n(val, 2)}</tspan>`, 0, -text_offset);
 	let tick = `<line x1="0" x2="0" y1="0" y2="${-tick_l}" />`
 	let rotate = y_axis ? -90 : 0;
 	let x = y_axis ? axes_coords.x : axes_coords.xval(val);

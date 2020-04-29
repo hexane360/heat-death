@@ -70,8 +70,48 @@ svg {
   max-width: 70%
 }
 
-.label {
-  
+.dim {
+  border-bottom: 1px dotted;
+  position: relative;
+  display: inline-block;
+}
+
+.dim .tooltip {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  position: absolute;
+  z-index: 1;
+  width: 5em;
+  bottom: 110%;
+  margin-left: -2.5em;
+  left: 50%;
+
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+/*
+.dim .tooltip::after {
+  content: " ";
+  position: relative;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+*/
+
+.dim:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 #graph {
@@ -80,7 +120,7 @@ svg {
   height: 100%;
   stroke-width: 4;
   fill: none;
-  z-index: 0;
+  pointer-events: none;
 }
 
 .tick line {
@@ -111,6 +151,7 @@ svg text, svg tspan {
   width: calc(100% - 8rem);
   height: calc(100% - 8rem);
   margin: 4rem;
+  z-index: -2;
 }
 
 #poly {

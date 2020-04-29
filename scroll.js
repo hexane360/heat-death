@@ -291,6 +291,34 @@ ${axes_coords.left} ${axes_coords.bottom}) view-box`;
 	marker.setAttribute('y2', axes_coords.yval(time));
 }
 
+function initTooltips() {
+	for (const elem of document.getElementsByClassName('dim')) {
+		let val;
+		let unit = elem.getElementsByClassName('unit')[0];
+		if (elem.getElementsByTagName('sup').length > 0) {
+			const sup = elem.getElementsByTagName('sup')[0];
+			let mantissa = sup.previousSibling.textContent.split("×")[0];
+			let exponent = sup.textContent;
+			val = parseFloat(mantissa) * Math.pow(10, parseFloat(exponent));		
+		} else {
+			val = parseFloat(unit.previousSibling.textContent);
+		}
+		unit = unit.textContent.trim();
+		const tooltip = elem.appendChild(document.createElement("div"));
+		tooltip.className = 'tooltip';
+
+		const base_unit = unit.slice(-1);
+		const prefix = unit.charAt(0);
+		if (prefix == 'q') {
+			val *= 1e-30;
+		} else {
+			tooltip.innerHTML = "Unknown value";
+			continue;
+		}
+		tooltip.innerHTML = `${val.toPrecision(2)} ${base_unit}`;
+	}
+}
+
 window.onload = function() {
 	graph = document.getElementById('graph');
 	title = document.getElementById('title');
@@ -303,6 +331,8 @@ window.onload = function() {
 	human = document.getElementById('human');
 	t4 = document.getElementById('t4');
 	blackhole = document.getElementById('blackhole');
+
+	initTooltips();
 
 	//updateHeights();
 	updatePos();

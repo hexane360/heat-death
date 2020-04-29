@@ -17,9 +17,9 @@ function calc_temp(time) {
 }
 
 const axes_keyframes = [
-	{name: "bang", time_bounds: [-43, -6], temp_bounds: [15, 38], start: () => bottomOf(bang), length: () => topOfContent(electroweak) - bottomOf(bang)},
-	{name: "electroweak", time_bounds: [-30, -6], temp_bounds: [15, 38], start: () => centerOfContent(electroweak), length: () => heightOfContent(electroweak)/2},
-	{name: "quark", time_bounds: [-12, 0], temp_bounds: [10, 32], start: () => topOfContent(quark), length: () => heightOfContent(quark)},
+	{name: "bang", time_bounds: [-43, -3], temp_bounds: [15, 38], start: () => bottomOf(bang), length: () => topOfContent(electroweak) - bottomOf(bang)},
+	{name: "electroweak", time_bounds: [-30, -3], temp_bounds: [15, 38], start: () => centerOfContent(electroweak), length: () => heightOfContent(electroweak)/2},
+	{name: "quark", time_bounds: [-14, 0], temp_bounds: [10, 32], start: () => topOfContent(quark), length: () => heightOfContent(quark)},
 	{name: "human",  time_bounds: [5, 20], temp_bounds: [-3, 30], start: () => topOfContent(human), length: () => heightOfContent(human)},
 	{name: "blackhole", time_bounds: [0, 95], temp_bounds: [-40, 30], start: () => topOfContent(blackhole), length: () => heightOfContent(blackhole)},
 	{name: "heatdeath", time_bounds: [0, 1007], temp_bounds: [-510, 30], start: () => bottomOf(document.documentElement), length: () => 0},
@@ -201,7 +201,7 @@ function updatePos() {
 		window.setTimeout(function() { graph.classList.add('hide') }, 3000);
 	}
 
-	if (center_pos + window.innerHeight/2 > bottomOf(quark)) {
+	if (center_pos - window.innerHeight > bottomOf(quark)) {
 		graph.classList.remove('dark');
 	} else {
 		graph.classList.add('dark');

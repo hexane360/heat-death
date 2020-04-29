@@ -23,7 +23,7 @@ h2 {
   font-size: small;
 }
 svg {
-  transition: stroke 2s linear, color 2s linear, fill 2s linear, opacity 0.5s linear, visibility 0s 0.5s;
+  transition: stroke 1s linear, color 1s linear, fill 1s linear, opacity 0.5s linear, visibility 0s 0.5s;
 }
 .dark {
   color: black; stroke: black;
@@ -37,7 +37,7 @@ svg {
 :not(.hide) {
   visibility: visible;
   opacity: 1;
-  transition: stroke 2s linear, color 2s linear, fill 2s linear, opacity 0.5s linear;
+  transition: stroke 1s linear, color 1s linear, fill 1s linear, opacity 0.5s linear;
 }
 
 .flex {

@@ -11,6 +11,7 @@
 <body>
   <div id="chartarea"></div>
   <svg id="graph" class="dark hide" xmlns="http://www.w3.org/2000/svg">
+    <!-- <clipBox id="dataclip" clipPathUnits="userSpaceOnUse"><rect id="cliprect" /></clipBox> -->
     <polygon id="poly" />
     <polyline id="line" />
 	  <g id="axes">
@@ -35,40 +36,137 @@
 
     <div class="transition" id="bang"> </div>
     <div class="sec" id="electroweak">
-      <h2 class="text">Electroweak</h2>
-      <p class="text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        <span class="dim">1 × 10<sup>-13</sup>&nbsp;<span class="unit">qs</span></span>
-      </p>
       <p class="text diag1">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        <span class="dim">50&nbsp;<span class="unit">qs</unit></span>
+        "Can you tell me how the universe began?"
       </p>
       <p class="text diag2">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        "As far as we know, the universe began at <span class="dim">1 × 10<sup>-13</sup> quectoseconds</span>.
+        By <span class="dim">1 × 10<sup>-5</sup> qs</span>,
+        the Grand Unified Theory separated into the three fundamental forces we know today: The Strong force,
+        the Gravitational force, and the Electroweak force. But the Universe wasn't done. At the instant of the Big Bang,
+        the observable universe was only <span class="dim">1 × 10<sup>-5</sup> qm</span> apart. In the first
+        <span class="dim">0.001 qs</span>, our portion of the Universe rapidly expanded to become
+        <span class="dim">1 × 10<sup>30</sup> qm</span> apart. That's so big it would take us
+        <span class="dim">3.3 × 10<sup>21</sup> qs</span> to cross."
+      </p>
+      <p class="text diag1">
+        "But we only live for <span class="dim">100 <span class="unit">qs</span></span>!<br>
+        If we're lucky!"
+      </p>
+      <p class="text diag2">
+        "It's worse than that. The Universe is still constantly expanding. By the time you make it across, the universe could be 
       </p>
     </div>
     <div class="transition" id="t2"> </div>
     <div class="sec" id="quark">
-      <h2 class="text">Quark</h2>
-      <p class="text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <p class="text diag1">
+        "This article says that at <span class="dim">1 × 10<sup>17</sup> zs</span>, the temperature of the Universe will drop below
+        1.7&nbsp;×&nbsp;10<sup>12</sup>&nbsp;K, and the quarks which make up our body will begin to condense into
+        "hadrons". Once this happens, the chemistry we rely on to breathe, live, and think will no longer be possible.
+        Quantum chromodynamics as we know it will come to a stop."
+      </p>
+      <p class="text diag2">
+        "Doesn't matter to me. I'll be long dead."
+      </p>
+      <p class="text diag1">
+        "It says here: "Scientists are still attempting to synthesize hadrons in the lab, but it's extremely difficult to cool quarks
+        to temperatures low enough to bind them together. Whatever properties hadrons turn out to have, one thing is clear: The
+        Universe as we know it will be a much different place."
+      </p>
+      <p class="text diag2">
+        "Couldn't we just keep a bunch of space heaters around?"
+      </p>
+      <p class="text diag1">
+        "I don't think so. Eventually we'll run out of energy to power them with. The Second Law of Thermodynamics means
+        that eventually all temperatures must equalize. No, our time here is limited."
+      </p>
+      <p class="text diag2">
+        "Do you think life could happen afterwards?"
+      </p>
+      <p class="text diag1">
+        "I wouldn't bet on it. There just won't be enough free energy left in the future."
+      </p>
+      <p class="text diag1">
+        "Here, look what it says: 'By <span class="dim">10<sup>21</sup> zs</span> (a hundred billion billion zs!), more than 99% of all these hadrons will
+        be annihilated by antihadrons.'"
+      </p>
+      <p class="text diag2">
+        "So, not only will every quark in our body be unrecognizable, but 99% of them will be gone altogether?"
+      </p>
+      <p class="text diag1">
+        "And then it looks like the same will happen with leptons. And photons."
+      </p>
+      <p class="text diag2">
+        "Huh."
       </p>
     </div>
     <div class="transition" id="t3"> </div>
     <div class="sec" id="human">
-      <h2 class="text">Human</h2>
-      <p class="text">
-        Test
+      <div class="chatter">
+        "...and the cosmic background radiation of the Universe is measured to be 2.725 Kelvin,
+        indicating that matter and electro-magnetic radiation decoupled when the universe was approximately
+        <span class="dim">1.2 × 10<sup>13</sup> s</span> old, meaning the universe became transparent to light,
+        leading to what scientists call the dark ages, culminating in the formation of stable hydrogen and
+        in a few hundred million years stars and galaxies, and this was all made possible by the asymmetry
+        between matter and antimatter long theorized by physicists but only experimentally verified recently,
+        the presence of this asymmetry implies that there was much more matter at the beginning of the universe,
+        which annihilated as the temperature of the universe steadily dropped, which lowered the equilibrium constant
+        for the reaction of energy to form matter and antimatter, all as the observable universe adiabatically expanded
+        to the current size, from an initial size of <span class="dim">10<sup>-35</sup> m</span> to its current size of
+        <span class="dim">10<sup>27</sup> meters</span> (93 billion light years) of observable space, meaning the whole
+        universe could be much bigger, even infinite, and other components of it could have domain walls in between,
+        separating parts of the universe that spotaneously broke symmetry in different ways, because all proccesses in
+        the universe are local, including the processes that determine its fundamental laws, except possibly for the
+        process that created the universe in the first place, because it doesn't make sense to talk about units of time
+        before 1 Planck time (<span class="dim">10<sup>-43</sup> s</span>), at least without a working model of quantum
+        gravity..."
+      </div>
+      <p class="text diag1">"Hey."</p>
+      <p class="text diag2">"Yeah?"</p>
+      <p class="text diag1">"What are you doing after class?"</p>
+      <p class="text diag2">"Dunno."</p>
+      <p class="text diag2">"Hey, do you think life existed before us?"</p>
+      <p class="text diag1">"Like life on other planets?"</p>
+      <p class="text diag2">"No, like life that's completely different from us. Life not made of carbon and atoms and molecules."</p>
+      <p class="text diag1">"Oh. Probably not."</p>
+      <p class="text diag2">
+        "Like imagine right after the big bang. Could there have been life that evolved, grew, and died before us?"
       </p>
+      <p class="text diag2">"Or maybe there'll be life after we die off."</p>
+      <p class="text diag1">
+        "Well, pretty soon now everything will be gone but black holes. Didn't you hear the professor?
+        In <span class="dim">10<sup>40</sup> years</span>, every proton and neutron in the Universe will have decayed."
+      </p>
+      <p class="text diag2">"Maybe those black holes will have intelligence."</p>
+      <p class="text diag1">
+        "Are you kidding? When we're gone, we're gone. Nothing floating in cold dead space could ever have intelligence, let alone <i>humanity</i>."
+      </p>
+      <p class="text diag2">"I guess you're right. When we're gone, we're gone."</p>
     </div>
     <div class="transition" id="t4"> </div>
     <div class="sec" id="blackhole">
-      <h2 class="text">Blackhole</h2>
+      <p class="text diag1">Hey</p>
+      <p class="text diag2">Hi</p>
+      <p class="text diag1">How are you feeling?</p>
+      <p class="text diag2">Good.</p>
+      <p class="text diag2">My smallest sensor nerves have <span class="dim">10<sup>89</sup> years</span> of Hawking radiation left.</p>
+      <p class="text diag2">My largest neurons have <span class="dim">10<sup>95</sup> years</span>.</p>
+      <p class="text diag1">100 billion black holes make up our bodies, and none of them will last past <span class="dim">10<sup>100</sup> years</span>.
+      <br><br>What happens then?</p>
+      <p class="text diag2">Then we wait for the heat death in <span class="dim">10<sup>1000</sup> years</span>.</p>
+      <p class="text diag1">You mean 'the photons and leptons that used to be us' wait for the heat death.</p>
+      <p class="text diag2">Yeah.</p>
+      <p class="text diag1">Our thoughts are slowing down, too.</p>
+      <p class="text diag2">Yes.</p>
+      <p class="text diag1">And we're getting farther apart.</p>
+      <p class="text diag2">Yes.</p>
+      <p class="text diag1">Well,</p>
+      <p class="text diag1">I love you.</p>
+      <p class="text diag2">love you too.</p>
     </div>
     <div class="transition" id="heatdeath"> </div>
   </div>
-  <div id="debug">
+  <div id="debug" style="display: none;">
     Scroll: <span id="scroll"></span><br>
     Time: <span id="time"></span><br>
     Temp: <span id="temp"></span><br>

@@ -8,7 +8,7 @@ const line_keyframes = [
 	{name: "Dark Ages",   temp: 9e3, time: 5.6e12},
 	{name: "Neutral atoms", temp: 3e3, time: 1.2e13},*/
 	{name: "human",     time: Math.log10(4.3e17), start: () => topOfContent(human), length: () => heightOfContent(human)},
-	{name: "blackhole",   time: Math.log10(3.156e47), start: () => topOfContent(blackhole), length: () => heightOfContent(blackhole)},
+	{name: "blackhole",   time: Math.log10(3.156e87), start: () => topOfContent(blackhole), length: () => heightOfContent(blackhole)},
 	{name: "heatdeath",   time: 1007, start: () => bottomOf(document.documentElement), length: () => 0}
 ];
 
@@ -21,7 +21,7 @@ const axes_keyframes = [
 	{name: "electroweak", time_bounds: [-30, -6], temp_bounds: [15, 38], start: () => centerOfContent(electroweak), length: () => heightOfContent(electroweak)/2},
 	{name: "quark", time_bounds: [-12, 0], temp_bounds: [10, 32], start: () => topOfContent(quark), length: () => heightOfContent(quark)},
 	{name: "human",  time_bounds: [5, 20], temp_bounds: [-3, 30], start: () => topOfContent(human), length: () => heightOfContent(human)},
-	{name: "blackhole", time_bounds: [0, 70], temp_bounds: [-20, 30], start: () => topOfContent(blackhole), length: () => heightOfContent(blackhole)},
+	{name: "blackhole", time_bounds: [0, 95], temp_bounds: [-40, 30], start: () => topOfContent(blackhole), length: () => heightOfContent(blackhole)},
 	{name: "heatdeath", time_bounds: [0, 1007], temp_bounds: [-510, 30], start: () => bottomOf(document.documentElement), length: () => 0},
 ];
 
@@ -201,7 +201,7 @@ function updatePos() {
 		window.setTimeout(function() { graph.classList.add('hide') }, 3000);
 	}
 
-	if (center_pos + window.innerHeight/2 > topOf(quark)) {
+	if (center_pos + window.innerHeight/2 > bottomOf(quark)) {
 		graph.classList.remove('dark');
 	} else {
 		graph.classList.add('dark');
@@ -230,6 +230,14 @@ function updatePos() {
 	}
 	axes_coords = new AxesCoords(chartarea, x_begin, x_end, y_begin, y_end);
 
+	/*
+	//clip path
+	const clip_rect = document.getElementById('cliprect');
+	clip_rect.setAttribute('x', axes_coords.x);
+	clip_rect.setAttribute('y', axes_coords.y);
+	clip_rect.setAttribute('width', axes_coords.width);
+	clip_rect.setAttribute('height', axes_coords.height);
+	*/
 	const clip_path = `polygon(\
 ${axes_coords.left} ${axes_coords.top}, \
 ${axes_coords.right} ${axes_coords.top}, \
@@ -243,6 +251,9 @@ ${axes_coords.left} ${axes_coords.bottom}) view-box`;
 	const line = document.getElementById('line');
 	line.setAttribute('points', points.join(" "));
 	line.setAttribute('clip-path', clip_path);
+	//TODO Chrome needs percentages for clip-path
+	//line.setAttribute('style', `clip-path: ${clip_path};`);
+	//line.setAttribute('style', `clip-path: url(#dataclip);`);
 	//line.setAttribute('clip', `rect(${axes_coords.left}, ${axes_coords.top}, ${axes_coords.right}, ${axes_coords.bottom})`);
 
 	//fill
@@ -254,6 +265,7 @@ ${axes_coords.left} ${axes_coords.bottom}) view-box`;
 	points.push(axes_coords.x + ',' + axes_coords.y);
 	const poly = document.getElementById('poly');
 	poly.setAttribute('points', points.join(" "));
+	//poly.setAttribute('style', `clip-path: ${clip_path};`);
 	poly.setAttribute('clip-path', clip_path);
 
 	//ticks
@@ -294,26 +306,52 @@ ${axes_coords.left} ${axes_coords.bottom}) view-box`;
 function initTooltips() {
 	for (const elem of document.getElementsByClassName('dim')) {
 		let val;
-		let unit = elem.getElementsByClassName('unit')[0];
+		let words = elem.textContent.split(/\s+/);
+		let unit = words.slice(-1)[0];
+		//let unit = elem.getElementsByClassName('unit')[0];
 		if (elem.getElementsByTagName('sup').length > 0) {
 			const sup = elem.getElementsByTagName('sup')[0];
-			let mantissa = sup.previousSibling.textContent.split("×")[0];
+			let mantissa = sup.previousSibling.textContent.split(/×|10|×\s*10/)[0];
 			let exponent = sup.textContent;
+			if (!mantissa) { mantissa = "1"; }
 			val = parseFloat(mantissa) * Math.pow(10, parseFloat(exponent));		
 		} else {
-			val = parseFloat(unit.previousSibling.textContent);
+			val = parseFloat(words.slice(0, -1).join(" "));
 		}
-		unit = unit.textContent.trim();
+		//unit = unit.textContent.trim();
 		const tooltip = elem.appendChild(document.createElement("div"));
 		tooltip.className = 'tooltip';
 
-		const base_unit = unit.slice(-1);
-		const prefix = unit.charAt(0);
-		if (prefix == 'q') {
-			val *= 1e-30;
+		let base_unit, prefix;
+		if (unit.length > 2) {
+			const match = unit.match(/(.*)(second|meter|year)[s]/);
+			if (!match) {
+				tooltip.innerHTML = "Unknown units";
+				continue;
+			}
+			base_unit = match[2][0];
+			prefix = match[1];
+		} else if (unit.length == 2) {
+			base_unit = unit.slice(-1);
+			prefix = unit.charAt(0);
 		} else {
-			tooltip.innerHTML = "Unknown value";
-			continue;
+			base_unit = unit.slice(-1);
+		}
+		
+		if (base_unit == 'y') {
+			val *= 3.154e+7;
+			base_unit = 's'
+		}
+
+		if (prefix) {
+			if (prefix == 'q' || prefix == 'quecto') {
+				val *= 1e-30;
+			} else if (prefix == 'z' || prefix == 'zepto') {
+				val *= 1e-21;
+			} else if (prefix != ' ') {
+				tooltip.innerHTML = "Unknown units";
+				continue;
+			}
 		}
 		tooltip.innerHTML = `${val.toPrecision(2)} ${base_unit}`;
 	}

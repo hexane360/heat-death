@@ -1,7 +1,10 @@
 @import url('fonts.css');
 
 :root {
-  --indigo: #3300FF;
+  --indigo: #001953;
+  --yellow: #FFE000;
+  --red: #990011;
+  --darkgreen: #134F13;
 }
 
 html {
@@ -12,30 +15,50 @@ body {
   font-family: Open Sans, sans-serif;
   font-size: large;
   color: white;
+  stroke: white;
   margin: 0;
 }
 h2 {
   font-size: small;
+}
+.dark {
+  color: black; stroke: black;
+  transition: stroke 0.5s linear, color 0.5s linear, fill 0.5s linear;
+}
+.dark text, .dark tspan { fill: black; }
+:not(.dark) { transition: stroke 0.5s linear, color 0.5s linear, fill 0.5s linear; }
+
+.hide {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s linear, visibility 0s 0.5s;
+}
+:not(.hide) {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.5s linear;
 }
 
 .flex {
   display: flex;
   flex-direction: column;
 }
-.flex > div {
+.sec {
   padding: 60vh 0 60vh 0;
+}
+.transition {
+  height: 120vh;
 }
 
 .text {
   min-width: 20em;
   max-width: 40em;
-  margin: auto 5% auto 10%;
+  margin: auto 5% auto 20%;
 }
 .text ~ .text {
   margin-top: 2em;
 }
 .diag1 {
-  float: left;
   text-align: left;
   width: 30em;
   max-width: 70%;
@@ -47,17 +70,51 @@ h2 {
   max-width: 70%
 }
 
+.label {
+  
+}
+
 #graph {
   position: fixed;
-  stroke: white;
-  stroke-width: 6;
+  width: 100%;
+  height: 100%;
+  stroke-width: 4;
   fill: none;
-  width: 95%;
-  height: 90%;
   /* z-index: -1; */
 }
 
+.tick line {
+	stroke-width: 2;
+}
+
+svg text, svg tspan {
+  stroke-width: 1;
+  font-size: medium;
+  display: inline;
+  fill: white;
+  text-anchor: middle;
+  dominant-baseline: hanging;
+}
+
+#xlabel text, #xlabel tspan {
+  dominant-baseline: auto;
+}
+
+#graph .super {
+  font-size: x-small;
+  vertical-align: super;
+}
+
+#chartarea {
+  position: fixed;
+  visibility: hidden;
+  width: calc(100% - 8rem);
+  height: calc(100% - 8rem);
+  margin: 4rem;
+}
+
 #debug {
+  background-color: black;
   position: fixed;
   border: 2px solid white;
   padding: 0.5em;
@@ -71,10 +128,12 @@ h2 {
 #intro {
   background-color: black;
 }
-#t1 { background-image: linear-gradient(black, white); padding: 15vh 0% 15vh 0%; }
-#first { background-color: red; }
-#t2 { background-image: linear-gradient(red, orange, yellow); }
-#second { background-color: yellow; }
-#t3 { background-image: linear-gradient(yellow, darkgreen); }
-#third { background-color: darkgreen; }
-#t4 { background-image: linear-gradient(darkgreen, var(--indigo), black); padding: 120vh 0% 120vh 0%; }
+#bang { background-image: linear-gradient(black, white); height: 30vh; }
+#electroweak { background-image: linear-gradient(white, 20%, var(--yellow)); color: black; }
+#t2 { background-image: linear-gradient(var(--yellow), orange); }
+#quark { background-color: orange; }
+#t3 { background-image: linear-gradient(orange, var(--red), 85%, darkgreen); height: 240vh; }
+#human { background-color: darkgreen; }
+#t4 { background-image: linear-gradient(darkgreen, var(--indigo)); height: 240vh; }
+#blackhole { background-color: var(--indigo); }
+#heatdeath { background-image: linear-gradient(var(--indigo), black); height: 600vh; }
